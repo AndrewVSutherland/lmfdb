@@ -577,10 +577,11 @@ def render_field_webpage(args):
     label_orig = label
     if len(label) > 25:
         label = label[:16] + '...' + label[-6:]
+    print(D)
     properties = [('Label', label),
                   ('Degree', prop_int_pretty(data['degree'])),
                   ('Signature', prop_int_pretty(data['signature'])),
-                  ('Discriminant', prop_int_pretty(nf.disc())),
+                  ('Discriminant', prop_int_pretty(D)),
                   ('Root discriminant', '%s' % data['rd']),
                   ('Ramified ' + primes + '', '$%s$' % ram_primes),
                   ('Class number', '%s %s' % (data['class_number'], grh_lab)),
