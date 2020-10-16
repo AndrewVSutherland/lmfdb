@@ -17,7 +17,7 @@ from lmfdb.utils import (
     web_latex_poly, bigint_knowl, bigpoly_knowl, too_big, make_bigint,
     display_float, display_complex, round_CBF_to_half_int, polyquo_knowl,
     display_knowl, factor_base_factorization_latex,
-    integer_options, names_and_urls, web_latex_factored_integer)
+    integer_options, names_and_urls, web_latex_factored_integer, prop_int_pretty)
 from lmfdb.number_fields.web_number_field import nf_display_knowl
 from lmfdb.number_fields.number_field import field_pretty
 from lmfdb.galois_groups.transitive_group import small_group_label_display_knowl
@@ -221,8 +221,8 @@ class WebNewform(object):
         if self.plot is not None:
             self.properties += [(None, '<img src="{0}" width="200" height="200"/>'.format(self.plot))]
 
-        self.properties += [('Level', "$%s$"%self.level),
-                            ('Weight', "$%s$"%self.weight)]
+        self.properties += [('Level', prop_int_pretty(self.level)),
+                            ('Weight', prop_int_pretty(self.weight))]
         if self.embedding_label is None:
             self.properties.append(('Character orbit', '%s.%s' % (self.level, self.char_orbit_label)))
         else:
@@ -233,9 +233,9 @@ class WebNewform(object):
         self.properties += [('Analytic conductor', '$%.3f$' % self.analytic_conductor)]
 
         if self.analytic_rank is not None:
-            self.properties += [('Analytic rank', '$%s$' % self.analytic_rank)]
+            self.properties += [('Analytic rank', prop_int_pretty(self.analytic_rank))]
 
-        self.properties += [('Dimension', '$%s$' % self.dim)]
+        self.properties += [('Dimension', prop_int_pretty(self.dim))]
 
         if self.projective_image:
             self.properties += [('Projective image', '$%s$' % self.projective_image_latex)]
@@ -259,7 +259,7 @@ class WebNewform(object):
         else:
             self.properties += [('CM', 'no')]
         if self.inner_twist_count >= 1:
-            self.properties += [('Inner twists', str(self.inner_twist_count))]
+            self.properties += [('Inner twists', prop_int_pretty(self.inner_twist_count))]
         self.title = "Newform orbit %s"%(self.label)
 
     # Breadcrumbs

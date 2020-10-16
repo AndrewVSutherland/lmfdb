@@ -107,6 +107,17 @@ def list_factored_to_factored_poly_otherorder(sfacts_fc_list, galois=False, vari
 #   number utilities
 ################################################################################
 
+def prop_int_pretty(n):
+    """
+    This function should be called whenever displaying an integer in the
+    properties table so that we can keep the formatting consistent
+    """
+    if n >= 10**10:
+        e = floor(log(n,10))
+        return r'$%.3f\times 10^%d$' % (a,e)
+    else:
+        return '$%s$' % n
+
 def try_int(foo):
     try:
         return int(foo)

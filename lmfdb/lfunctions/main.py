@@ -20,7 +20,7 @@ from .Lfunction import (Lfunction_Dirichlet, Lfunction_EC, #Lfunction_EC_Q, Lfun
                        Lfunction_genus2_Q, Lfunction_from_db, artin_url, hmf_url)
 from .LfunctionComp import isogeny_class_table, genus2_isogeny_class_table
 from .Lfunctionutilities import (p2sage, styleTheSign, get_bread, parse_codename,
-                                getConductorIsogenyFromLabel)
+                                getConductorIsogenyFromLabel, prop_int_pretty)
 
 from lmfdb.characters.web_character import WebDirichlet
 from lmfdb.lfunctions import l_function_page
@@ -523,13 +523,13 @@ def set_gaga_properties(L):
     ''' Sets the properties in the properties box in the
     upper right corner
     '''
-    ans = [('Degree', "$%s$" % L.degree)]
+    ans = [('Degree', prop_int_pretty(L.degree))]
 
-    ans.append(('Conductor', "$%s$" % L.level))
+    ans.append(('Conductor', prop_int_pretty(L.level)))
     ans.append(('Sign', "$%s$" % styleTheSign(L.sign) ))
 
     if L.algebraic:
-        ans.append(('Motivic weight', "$%s$" % L.motivic_weight))
+        ans.append(('Motivic weight', prop_int_pretty(L.motivic_weight)))
 
 
     primitive =  getattr(L, 'primitive', None)
@@ -542,7 +542,7 @@ def set_gaga_properties(L):
 
     rank = getattr(L, 'order_of_vanishing', None)
     if rank is not None:
-        ans.append(('Analytic rank', str(rank)))
+        ans.append(('Analytic rank', prop_int_pretty(rank)))
 
     return ans
 
