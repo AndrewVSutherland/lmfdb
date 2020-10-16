@@ -25,7 +25,7 @@ from sage.all import (CC, CBF, CDF,
                       PolynomialRing, PowerSeriesRing, QQ,
                       RealField, RR, RIF, TermOrder, ZZ)
 from sage.misc.functional import round
-from sage.all import floor, latex, prime_range, valuation, factor
+from sage.all import floor, latex, prime_range, valuation, factor, log
 from sage.structure.element import Element
 
 from lmfdb.app import app, is_beta, is_debug_mode, _url_source
@@ -114,7 +114,7 @@ def prop_int_pretty(n):
     """
     if n >= 10**10:
         e = floor(log(n,10))
-        return r'$%.3f\times 10^%d$' % (a,e)
+        return r'$%.3f\times 10^%d$' % (n/10**e, e)
     else:
         return '$%s$' % n
 
