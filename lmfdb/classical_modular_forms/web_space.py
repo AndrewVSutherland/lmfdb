@@ -320,10 +320,10 @@ class WebNewformSpace(object):
             ('Dimension', '$%s$' % self.dim),
         ]
         if self.num_forms is not None:
-            self.properties.append(('Newform subspaces',str(self.num_forms)))
-        self.properties.append(('Sturm bound',str(self.sturm_bound)))
+            self.properties.append(('Newform subspaces', '$%s$' % self.num_forms))
+        self.properties.append(('Sturm bound', '$%s$' % self.sturm_bound))
         if data.get('trace_bound') is not None:
-            self.properties.append(('Trace bound',str(self.trace_bound)))
+            self.properties.append(('Trace bound', '$%s$' % self.trace_bound))
         # Work around search results not including None
         if data.get('num_forms') is None:
             self.num_forms = None
