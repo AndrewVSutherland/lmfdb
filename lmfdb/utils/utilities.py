@@ -114,7 +114,7 @@ def prop_int_pretty(n):
     """
     if n >= 10**10:
         e = floor(log(n,10))
-        return r'$%.3f\times 10^%d$' % (n/10**e, e)
+        return r'$%.3f\times 10^{%d}$' % (n/10**e, e)
     else:
         return '$%s$' % n
 
