@@ -20,14 +20,14 @@ from .Lfunction import (Lfunction_Dirichlet, Lfunction_EC, #Lfunction_EC_Q, Lfun
                        Lfunction_genus2_Q, Lfunction_from_db, artin_url, hmf_url)
 from .LfunctionComp import isogeny_class_table, genus2_isogeny_class_table
 from .Lfunctionutilities import (p2sage, styleTheSign, get_bread, parse_codename,
-                                getConductorIsogenyFromLabel, prop_int_pretty)
+                                getConductorIsogenyFromLabel)
 
 from lmfdb.characters.web_character import WebDirichlet
 from lmfdb.lfunctions import l_function_page
 from lmfdb.maass_forms.plot import paintSvgMaass
 from lmfdb.classical_modular_forms.web_newform import convert_newformlabel_from_conrey
 from lmfdb.artin_representations.main import parse_artin_label
-from lmfdb.utils import to_dict, signtocolour, rgbtohex, key_for_numerically_sort, display_float
+from lmfdb.utils import to_dict, signtocolour, rgbtohex, key_for_numerically_sort, display_float, prop_int_pretty
 from lmfdb.app import is_debug_mode
 from lmfdb import db
 from six import string_types
