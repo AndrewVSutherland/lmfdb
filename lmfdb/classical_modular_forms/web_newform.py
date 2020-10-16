@@ -221,8 +221,8 @@ class WebNewform(object):
         if self.plot is not None:
             self.properties += [(None, '<img src="{0}" width="200" height="200"/>'.format(self.plot))]
 
-        self.properties += [('Level', str(self.level)),
-                            ('Weight', str(self.weight))]
+        self.properties += [('Level', "$%s$"%self.level),
+                            ('Weight', "$%s$"%self.weight)]
         if self.embedding_label is None:
             self.properties.append(('Character orbit', '%s.%s' % (self.level, self.char_orbit_label)))
         else:
@@ -230,15 +230,15 @@ class WebNewform(object):
 
         if self.is_self_dual != 0:
             self.properties += [('Self dual', 'yes' if self.is_self_dual == 1 else 'no')]
-        self.properties += [('Analytic conductor', '%.3f'%(self.analytic_conductor))]
+        self.properties += [('Analytic conductor', '$%.3f$' % self.analytic_conductor)]
 
         if self.analytic_rank is not None:
-            self.properties += [('Analytic rank', str(int(self.analytic_rank)))]
+            self.properties += [('Analytic rank', '$%s$' % self.analytic_rank)]
 
-        self.properties += [('Dimension', str(self.dim))]
+        self.properties += [('Dimension', '$%s$' % self.dim)]
 
         if self.projective_image:
-            self.properties += [('Projective image', r'\(%s\)' % self.projective_image_latex)]
+            self.properties += [('Projective image', '$%s$' % self.projective_image_latex)]
         # Artin data would make the property box scroll
         #if self.artin_degree: # artin_degree > 0
         #    self.properties += [('Artin image size', str(self.artin_degree))]
