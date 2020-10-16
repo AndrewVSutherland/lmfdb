@@ -578,9 +578,9 @@ def render_field_webpage(args):
     if len(label) > 25:
         label = label[:16] + '...' + label[-6:]
     properties = [('Label', label),
-                  ('Degree', '$%s$' % data['degree']),
-                  ('Signature', '$%s$' % data['signature']),
-                  ('Discriminant', '$%s$' % data['disc_factor']),
+                  ('Degree', prop_int_pretty(data['degree'])),
+                  ('Signature', prop_int_pretty(data['signature']),
+                  ('Discriminant', prop_int_pretty(data['disc']),
                   ('Root discriminant', '%s' % data['rd']),
                   ('Ramified ' + primes + '', '$%s$' % ram_primes),
                   ('Class number', '%s %s' % (data['class_number'], grh_lab)),
