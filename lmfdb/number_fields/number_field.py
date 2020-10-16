@@ -13,7 +13,7 @@ from lmfdb import db
 from lmfdb.app import app
 from lmfdb.utils import (
     web_latex, to_dict, coeff_to_poly, pol_to_html, comma, format_percentage,
-    flash_error, display_knowl, CountBox,
+    flash_error, display_knowl, CountBox, prop_int_pretty,
     SearchArray, TextBox, TextBoxNoEg, YesNoBox, SubsetNoExcludeBox, TextBoxWithSelect,
     clean_input, nf_string_to_label, parse_galgrp, parse_ints, parse_bool,
     parse_signed_ints, parse_primes, parse_bracketed_posints, parse_nf_string,
@@ -579,8 +579,8 @@ def render_field_webpage(args):
         label = label[:16] + '...' + label[-6:]
     properties = [('Label', label),
                   ('Degree', prop_int_pretty(data['degree'])),
-                  ('Signature', prop_int_pretty(data['signature']),
-                  ('Discriminant', prop_int_pretty(data['disc']),
+                  ('Signature', prop_int_pretty(data['signature'])),
+                  ('Discriminant', prop_int_pretty(data['disc'])),
                   ('Root discriminant', '%s' % data['rd']),
                   ('Ramified ' + primes + '', '$%s$' % ram_primes),
                   ('Class number', '%s %s' % (data['class_number'], grh_lab)),
