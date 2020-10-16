@@ -17,7 +17,7 @@ from lmfdb.utils import (
     SearchArray, TextBox, TextBoxNoEg, YesNoBox, SubsetNoExcludeBox, TextBoxWithSelect,
     clean_input, nf_string_to_label, parse_galgrp, parse_ints, parse_bool,
     parse_signed_ints, parse_primes, parse_bracketed_posints, parse_nf_string,
-    parse_floats, parse_subfield, search_wrap)
+    parse_floats, parse_subfield, search_wrap, bigint_knowl)
 from lmfdb.utils.interesting import interesting_knowls
 from lmfdb.galois_groups.transitive_group import (
     cclasses_display_knowl,character_table_display_knowl,
@@ -424,9 +424,9 @@ def render_field_webpage(args):
     D = nf.disc()
     data['disc_factor'] = nf.disc_factored_latex()
     if D.abs().is_prime() or D == 1:
-        data['discriminant'] = r"\(%s\)" % str(D)
+        data['discriminant'] = bigint_knowl(D,sides=3)
     else:
-        data['discriminant'] = r"\(%s=%s\)" % (str(D), data['disc_factor'])
+        data['discriminant'] = bigint_knowl(D,sides=3) + r"\(\medspace = %s\)" % data['disc_factor']
     if nf.frobs():
         data['frob_data'], data['seeram'] = see_frobs(nf.frobs())
     else:  # fallback in case we haven't computed them in a case
