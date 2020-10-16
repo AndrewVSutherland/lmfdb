@@ -580,7 +580,7 @@ def render_field_webpage(args):
     properties = [('Label', label),
                   ('Degree', prop_int_pretty(data['degree'])),
                   ('Signature', prop_int_pretty(data['signature'])),
-                  ('Discriminant', prop_int_pretty(data['disc'])),
+                  ('Discriminant', prop_int_pretty(nf.disc())),
                   ('Root discriminant', '%s' % data['rd']),
                   ('Ramified ' + primes + '', '$%s$' % ram_primes),
                   ('Class number', '%s %s' % (data['class_number'], grh_lab)),
