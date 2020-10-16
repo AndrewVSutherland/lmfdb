@@ -577,7 +577,7 @@ def render_field_webpage(args):
     label_orig = label
     if len(label) > 25:
         s = label.split('.')
-        s[3] = s[2][:3] + '...' + s[2][-3]
+        s[2] = s[2][:3] + '...' + s[2][-3]
         label = '.'.join(s)
     properties = [('Label', label),
                   ('Degree', prop_int_pretty(data['degree'])),
