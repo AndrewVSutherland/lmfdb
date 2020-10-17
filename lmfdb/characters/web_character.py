@@ -773,13 +773,17 @@ class WebChar(WebCharObject):
 
     @lazy_attribute
     def properties(self):
-        print("hi")
         f = [("Label", [self.label])]
-        print("there")
+        try:
+            if self.orbit_label:
+                formatted_orbit_label = "{}.{}".format(self.modulus, self.orbit_label)
+                f.append(("Orbit label", [formatted_orbit_label]))
+        except KeyError:
+            pass
         f.extend([
-            ("Modulus", [self.modulus]),
-            ("Conductor", [self.conductor]),
-            ("Order", [self.order]),
+            ("Modulus", [prop_int_pretty(self.modulus)]),
+            ("Conductor", [prop_int_pretty(self.conductor)]),
+            ("Order", [prop_int_pretty(self.order)]),
             ("Real", [self.isreal]),
             ("Primitive", [self.isprimitive])
         ])
@@ -787,12 +791,6 @@ class WebChar(WebCharObject):
             f.append(("Minimal", [self.isminimal]))
         if self.parity:
             f.append(("Parity", [self.parity]))
-        try:
-            if self.orbit_label:
-                formatted_orbit_label = "{}.{}".format(self.modulus, self.orbit_label)
-                f.append(("Orbit label", [formatted_orbit_label]))
-        except KeyError:
-            pass
         return f
 
     @lazy_attribute
