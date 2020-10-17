@@ -777,7 +777,7 @@ class WebChar(WebCharObject):
         try:
             if self.orbit_label:
                 formatted_orbit_label = "{}.{}".format(self.modulus, self.orbit_label)
-                f.append(("Orbit label", [formatted_orbit_label]))
+                f.append(("Galois orbit", [formatted_orbit_label]))
         except KeyError:
             pass
         f.extend([

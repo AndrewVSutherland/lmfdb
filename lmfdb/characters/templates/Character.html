@@ -32,7 +32,7 @@
   <tr> <td>{{KNOWL('character.dirichlet.conductor',title='Conductor')}}:</td> <td>\({{ conductor }}\)</td> </tr>
   <tr> <td colspan='3'> {{ place_code('order') }} </td> </tr>
   <tr> <td> {{KNOWL('character.dirichlet.order',title='Order')}}: </td> <td>\({{ order }}\)</td> </tr>
-  <tr> <td> {{KNOWL('character.dirichlet.real',title='Real')}}" </td> <td> {{ isreal }} </td> </tr>
+  <tr> <td> {{KNOWL('character.dirichlet.real',title='Real')}}: </td> <td> {{ isreal }} </td> </tr>
   <tr> <td colspan='3'> {{ place_code('isprimitive') }} </td> </tr>
   <tr> <td> {{KNOWL('character.dirichlet.primitive',title='Primitive')}}: </td> <td> {{ isprimitive }} </td> </tr>
 {% if type == 'Dirichlet' %}
@@ -51,7 +51,7 @@
 {# Galois Orbits #}
 
 <h2>
-  {{ KNOWL('character.dirichlet.galois_orbit', title="Galois orbit") }} { modulus }}.{{ orbit_label }}
+  {{ KNOWL('character.dirichlet.galois_orbit', title="Galois orbit") }} {{ modulus }}.{{ orbit_label }}
 </h2>
 {{ place_code('galoisorbit') }}
 <p>
@@ -107,7 +107,7 @@
 <div style='overflow:auto'>
   <table class="values">
     <thead>
-      <tr>{% for a in groupelts %}<td>{{a}}</td>{%endfor%}</tr>
+      <tr>{% for a in groupelts %}<td>\({{a}}\)</td>{%endfor%}</tr>
     </thead>
     <tr>{% for v in values %}<td>{{v}}</td>{%endfor%}</tr>
   </table>
