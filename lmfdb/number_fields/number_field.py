@@ -71,7 +71,7 @@ def nf_label_pretty(label):
         return label
     s = label.split('.')
     s[2] = s[2][:3] + '...' + s[2][-3:]
-    label = '.'.join(s)
+    return '.'.join(s)
 
 
 # fixed precision display of float, rounding off
