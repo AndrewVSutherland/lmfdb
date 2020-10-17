@@ -431,9 +431,9 @@ def render_field_webpage(args):
     D = nf.disc()
     data['disc_factor'] = nf.disc_factored_latex()
     if D.abs().is_prime() or D == 1:
-        data['discriminant'] = bigint_knowl(D,sides=3)
+        data['discriminant'] = bigint_knowl(D,cutoff=60,sides=3)
     else:
-        data['discriminant'] = bigint_knowl(D,sides=3) + r"\(\medspace = %s\)" % data['disc_factor']
+        data['discriminant'] = bigint_knowl(D,cutoff=60,sides=3) + r"\(\medspace = %s\)" % data['disc_factor']
     if nf.frobs():
         data['frob_data'], data['seeram'] = see_frobs(nf.frobs())
     else:  # fallback in case we haven't computed them in a case
