@@ -768,7 +768,8 @@ class WebChar(WebCharObject):
 
     @lazy_attribute
     def properties(self):
-        f = [
+        f = [("Label", [self.label])]
+        f.extend([
             ("Modulus", [self.modulus]),
             ("Conductor", [self.conductor]),
             ("Order", [self.order]),
