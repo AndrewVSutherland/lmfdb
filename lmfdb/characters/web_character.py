@@ -775,7 +775,7 @@ class WebChar(WebCharObject):
             ("Order", [self.order]),
             ("Real", [self.isreal]),
             ("Primitive", [self.isprimitive])
-        ]
+        ])
         if self.isminimal:
             f.append(("Minimal", [self.isminimal]))
         if self.parity:
