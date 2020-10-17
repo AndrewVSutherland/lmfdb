@@ -66,6 +66,13 @@ def group_character_table_data(n, t):
 def number_field_data(label):
     return Markup(nf_knowl_guts(label))
 
+def nf_label_pretty(label):
+    if len(label) <= 25:
+        return label
+    s = label.split('.')
+    s[2] = s[2][:3] + '...' + s[2][-3:]
+    label = '.'.join(s)
+
 
 # fixed precision display of float, rounding off
 def fixed_prec(r, digs=3):
@@ -502,7 +509,7 @@ def render_field_webpage(args):
         'loc_alg': loc_alg
     })
 
-    bread.append(('%s' % info['label_raw'], ' '))
+    bread.append(('%s' % nf_label_pretty(info['label_raw']), ' '))
     info['downloads_visible'] = True
     info['downloads'] = [('worksheet', '/')]
     info['friends'] = []
@@ -574,12 +581,7 @@ def render_field_webpage(args):
     else:
         primes = 'primes'
 
-    label_orig = label
-    if len(label) > 25:
-        s = label.split('.')
-        s[2] = s[2][:3] + '...' + s[2][-3:]
-        label = '.'.join(s)
-    properties = [('Label', label),
+    properties = [('Label', nf_label_pretty(label)),
                   ('Degree', prop_int_pretty(data['degree'])),
                   ('Signature', '$%s$' % data['signature']),
                   ('Discriminant', prop_int_pretty(D)),
@@ -589,10 +591,10 @@ def render_field_webpage(args):
                   ('Class group', '%s %s' % (data['class_group_invs'], grh_lab)),
                   ('Galois group', group_pretty_and_nTj(data['degree'], t))]
     downloads = [('Stored data to gp',
-                  url_for('.nf_download', nf=label_orig, download_type='data'))]
+                  url_for('.nf_download', nf=label, download_type='data'))]
     for lang in [["Magma","magma"], ["SageMath","sage"], ["Pari/GP", "gp"]]:
         downloads.append(('Download {} code'.format(lang[0]),
-                          url_for(".nf_download", nf=label_orig, download_type=lang[1])))
+                          url_for(".nf_download", nf=label, download_type=lang[1])))
     from lmfdb.artin_representations.math_classes import NumberFieldGaloisGroup
     from lmfdb.artin_representations.math_classes import artin_label_pretty
     try:
@@ -614,7 +616,7 @@ def render_field_webpage(args):
         info["mydecomp"] = [dopow(x) for x in v]
     except AttributeError:
         pass
-    return render_template("nf-show-field.html", properties=properties, credit=NF_credit, title=title, bread=bread, code=nf.code, friends=info.pop('friends'), downloads=downloads, learnmore=learnmore, info=info, KNOWL_ID="nf.%s"%label_orig)
+    return render_template("nf-show-field.html", properties=properties, credit=NF_credit, title=title, bread=bread, code=nf.code, friends=info.pop('friends'), downloads=downloads, learnmore=learnmore, info=info, KNOWL_ID="nf.%s"%label)
 
 
 def format_coeffs2(coeffs):
