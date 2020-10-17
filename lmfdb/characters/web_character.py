@@ -96,10 +96,6 @@ class WebCharObject(object):
         self.nflabel = args.get('number_field',None)
         self.modlabel = args.get('modulus',None)
         self.numlabel = args.get('number',None)
-        if self.modlabel and self.numlabel:
-            self.label = "%s.%s" % (self.modlabel, self.numlabel)
-        else:
-            self.label = None
         self.args = args
 
         self._compute()
@@ -685,7 +681,7 @@ class WebChar(WebCharObject):
     _keys = [ 'title', 'credit', 'codelangs', 'type',
               'nf', 'nflabel', 'nfpol', 'modulus', 'modlabel',
               'number', 'numlabel', 'texname', 'codeinit',
-              'symbol', 'codesymbol', 'label',
+              'symbol', 'codesymbol',
               'previous', 'next', 'conductor',
               'condlabel', 'codecond',
               'isprimitive', 'codeisprimitive',
@@ -744,6 +740,11 @@ class WebChar(WebCharObject):
         return self.char2tex(self.conductor, self.indlabel)
 
     @lazy_attribute
+    def label(self):
+        return "%s.%s" % (self.modlabel, self.numlabel)
+
+
+    @lazy_attribute
     def valuefield(self):
         """ compute order """
         order2 = self.order
@@ -772,7 +773,9 @@ class WebChar(WebCharObject):
 
     @lazy_attribute
     def properties(self):
+        print("hi")
         f = [("Label", [self.label])]
+        print("there")
         f.extend([
             ("Modulus", [self.modulus]),
             ("Conductor", [self.conductor]),
