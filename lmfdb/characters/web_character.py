@@ -65,7 +65,7 @@ from sage.all import gcd, Rational, power_mod, Integers, gp, xsrange, cached_met
 from sage.databases.cremona import cremona_letter_code
 
 from lmfdb import db
-from lmfdb.utils import web_latex
+from lmfdb.utils import web_latex, prop_int_pretty
 from lmfdb.utils.utilities import num2letters
 from lmfdb.logger import make_logger
 from lmfdb.nfutils.psort import ideal_label, ideal_from_label
