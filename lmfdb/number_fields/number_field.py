@@ -484,7 +484,7 @@ def render_field_webpage(args):
     grh_label = '<small>(<a title="assuming GRH" knowl="nf.assuming_grh">assuming GRH</a>)</small>' if nf.used_grh() else ''
     # Short version for properties
     grh_lab = nf.short_grh_string()
-    if 'Not' in str(data['class_number']):
+    if 'computed' in str(data['class_number']):
         grh_lab=''
         grh_label=''
     pretty_label = field_pretty(label)
