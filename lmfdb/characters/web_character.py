@@ -685,7 +685,7 @@ class WebChar(WebCharObject):
     _keys = [ 'title', 'credit', 'codelangs', 'type',
               'nf', 'nflabel', 'nfpol', 'modulus', 'modlabel',
               'number', 'numlabel', 'texname', 'codeinit',
-              'symbol', 'codesymbol',
+              'symbol', 'codesymbol', 'label',
               'previous', 'next', 'conductor',
               'condlabel', 'codecond',
               'isprimitive', 'codeisprimitive',
