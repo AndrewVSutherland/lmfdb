@@ -96,6 +96,10 @@ class WebCharObject(object):
         self.nflabel = args.get('number_field',None)
         self.modlabel = args.get('modulus',None)
         self.numlabel = args.get('number',None)
+        if self.modlabel and self.numlabel:
+            self.label = "%s.%s" % (self.modlabel, self.numlabel)
+        else:
+            self.label = None
         self.args = args
 
         self._compute()
