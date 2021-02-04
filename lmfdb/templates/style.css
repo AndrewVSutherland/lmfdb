@@ -106,11 +106,6 @@ a {
     font-family: sans-serif;
 }
 
-a[knowl] {
-    color: {{color.col_a_knowl}};
-    text-decoration: none;
-}
-
 a[knowl]:hover {
     text-decoration: underline;
 }
@@ -866,8 +861,8 @@ div.where {
  *  all elements, that have a knowl attribute set to any value */
 table .knowl-link {
   display: inline;
-  border-bottom: 1px dotted {{ color.knowl_hyper_text }};
-  border-radius: 0px;
+  /* border-bottom: 1px dotted {{ color.knowl_hyper_text }}; */
+  /* border-radius: 0px; */
   padding: 1px;
 }
 .knowl-bar {
