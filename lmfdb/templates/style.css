@@ -106,10 +106,6 @@ a {
     font-family: sans-serif;
 }
 
-a[knowl]:hover {
-    text-decoration: underline;
-}
-
 a.inactive {
     color: {{color.a_inactive}};
 }
@@ -1114,7 +1110,7 @@ table.statgrid td.cnt {
 }
 
 *[knowl] {
-  border-bottom: 1px dotted {{ color.knowl_underline }};
+  /* border-bottom: 1px dotted {{ color.knowl_underline }}; */
   cursor: pointer;
   border-radius: 0;
   margin: 3px 0 0 0;
