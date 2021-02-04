@@ -108,6 +108,11 @@ a {
 
 a[knowl] {
     color: {{color.col_a_knowl}};
+    text-decoration: none;
+}
+
+a[knowl]:hover {
+    text-decoration: underline;
 }
 
 a.inactive {
