@@ -45,7 +45,7 @@ The design is the following:
 
 from flask import url_for
 from sage.all import (gcd, Rational, Integers, cached_method,
-                      euler_phi, latex)
+                      euler_phi, latex, ZZ)
 from sage.databases.cremona import cremona_letter_code
 from sage.misc.lazy_attribute import lazy_attribute
 from lmfdb import db
@@ -58,6 +58,14 @@ from lmfdb.characters.TinyConrey import (ConreyCharacter, kronecker_symbol,
 from lmfdb.characters.utils import url_character, complex2str
 
 logger = make_logger("DC")
+
+# whether we expect modulus to have entries in char_dir_orbits
+def db_orbit_modulus(m):
+    return m <= 10000 or (m <= 100000 and ZZ(m).is_prime_power())
+
+# whether we expect modulus to have entries in char_dir_values
+def db_value_modulus(m):
+    return m <= 10000
 
 def parity_string(n):
     return "odd" if n == -1 else "even"
@@ -527,7 +535,7 @@ class WebChar(WebCharObject):
         f.append( ("Character group", cglink) )
         if self.nflabel:
             f.append( ('Number field', '/NumberField/' + self.nflabel) )
-        if self.type == 'Dirichlet' and self.chi.is_primitive() and self.conductor < 10000:
+        if self.type == 'Dirichlet' and self.chi.is_primitive() and db.value_modulus(self.conductor):
             url = url_character(type=self.type, number_field=self.nflabel, modulus=self.modlabel, number=self.numlabel)
             if get_lfunction_by_url(url[1:]):
                 f.append( ('L-function', '/L'+ url) )
@@ -546,7 +554,7 @@ class WebChar(WebCharObject):
 class WebDBDirichlet(WebDirichlet):
     """
     A base class using data stored in the database. Currently this is all
-    Dirichlet characters with modulus up to 10000.
+    Dirichlet characters with modulus up to 10000
     """
     def __init__(self, **kwargs):
         self.type = "Dirichlet"
