@@ -18,11 +18,10 @@ from lmfdb.characters.web_character import (
         WebSmallDirichletGroup,
         WebDBDirichletOrbit,
         db_orbit_modulus,
-        db_value_modulus,
 )
 from lmfdb.characters.ListCharacters import get_character_modulus
 from lmfdb.characters import characters_page
-from sage.databases.cremona import class_to_int, cremona_letter_code
+from sage.databases.cremona import class_to_int
 from lmfdb import db
 
 #### make url_character available from templates
@@ -327,9 +326,7 @@ def make_webchar(args, get_bread=False):
                 return WebDBDirichletOrbit(**args), bread_crumbs
             return WebDBDirichletOrbit(**args)
         if args.get('orbit_label') is None:
-            db_orbit_label = db.char_dir_values.lookup("{}.{}".format(modulus, number), projection='orbit_label')
-            orbit_label = cremona_letter_code(int(db_orbit_label.partition('.')[-1]) - 1)
-            args['orbit_label'] = orbit_label
+            args['orbit_label'] = db.char_dir_orbits.lucky({'modulus':modulus,'galois_orbit':{'$contains':number}}, projection='label')
         if get_bread:
             bread_crumbs = bread(
                     [('%s'%modulus, url_for(".render_Dirichletwebpage", modulus=modulus)),
@@ -423,10 +420,8 @@ def render_Dirichletwebpage(modulus=None, orbit_label=None, number=None):
         )
         return redirect(url_for(".render_DirichletNavigation"))
 
-    if modulus <= db_value_modulus(modulus):
-        db_orbit_label = db.char_dir_values.lookup("{}.{}".format(modulus, number), projection='orbit_label')
-        # The -1 in the line below is because labels index at 1, not 0
-        real_orbit_label = cremona_letter_code(int(db_orbit_label.partition('.')[-1]) - 1)
+    if modulus <= db_orbit_modulus(modulus):
+        real_orbit_label = db.char_dir_orbits.lucky({'modulus':modulus,'galois_orbit':{'$contains':number}}, projection='label')
         if orbit_label is not None:
             if orbit_label != real_orbit_label:
                 flash_warning(

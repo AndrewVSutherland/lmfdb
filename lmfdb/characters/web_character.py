@@ -63,10 +63,6 @@ logger = make_logger("DC")
 def db_orbit_modulus(m):
     return m <= 10000 or (m <= 100000 and ZZ(m).is_prime_power())
 
-# whether we expect modulus to have entries in char_dir_values
-def db_value_modulus(m):
-    return m <= 10000
-
 def parity_string(n):
     return "odd" if n == -1 else "even"
 
@@ -329,17 +325,13 @@ class WebDirichlet(WebCharObject):
         if val < 0:
             raise Warning ("n must be positive")
 
-        chi_values_data = db.char_dir_values.lookup(
-            "{}.{}".format(mod, num)
-        )
+        chi_values_data = db.char_dir_values.lookup("{}.{}".format(mod, num))
         chi_valuepairs = chi_values_data['values_gens']
         chi_genvalues = [int(v) for g, v in chi_valuepairs]
         chi = self.chi.sage_character(self.order, chi_genvalues)
 
         psi = ConreyCharacter(self.modulus, val)
-        psi_values_data = db.char_dir_values.lookup(
-            "{}.{}".format(self.modulus, val)
-        )
+        psi_values_data = db.char_dir_values.lookup("{}.{}".format(mod, val))
         psi_valuepairs = psi_values_data['values_gens']
         psi_genvalues = [int(v) for g, v in psi_valuepairs]
         psi = psi.sage_character(self.order, psi_genvalues)
@@ -370,9 +362,7 @@ class WebDirichlet(WebCharObject):
             = 1 \)
             """ % (a, b, a, b)
 
-        chi_values_data = db.char_dir_values.lookup(
-            "{}.{}".format(modulus, number)
-        )
+        chi_values_data = db.char_dir_values.lookup("{}.{}".format(modulus, number))
         chi_valuepairs = chi_values_data['values_gens']
         chi_genvalues = [int(v) for g, v in chi_valuepairs]
         chi = self.chi.sage_character(self.order, chi_genvalues)
@@ -535,7 +525,7 @@ class WebChar(WebCharObject):
         f.append( ("Character group", cglink) )
         if self.nflabel:
             f.append( ('Number field', '/NumberField/' + self.nflabel) )
-        if self.type == 'Dirichlet' and self.chi.is_primitive() and db.value_modulus(self.conductor):
+        if self.type == 'Dirichlet' and self.chi.is_primitive() and self.conductor <= 10000:
             url = url_character(type=self.type, number_field=self.nflabel, modulus=self.modlabel, number=self.numlabel)
             if get_lfunction_by_url(url[1:]):
                 f.append( ('L-function', '/L'+ url) )
@@ -583,22 +573,15 @@ class WebDBDirichlet(WebDirichlet):
         self._populate_from_db()
 
     def _populate_from_db(self):
-        values_data = db.char_dir_values.lookup(
-            "{}.{}".format(self.modulus, self.number)
-        )
+        values_data = db.char_dir_values.lookup("{}.{}".format(self.modulus, self.number))
+        if values_data:
+            self.indlabel = int(values_data['prim_label'].partition('.')[-1])
+            self._set_values_and_groupelts(values_data)
+            self._set_generators_and_genvalues(values_data)
 
-        self.orbit_index = int(values_data['orbit_label'].partition('.')[-1])
-        # The -1 in the line below is because labels index at 1, while
-        # the Cremona letter code indexes at 0
-        self.orbit_label = cremona_letter_code(self.orbit_index - 1)
-        self.order = int(values_data['order'])
-        self.indlabel = int(values_data['prim_label'].partition('.')[-1])
-        self._set_values_and_groupelts(values_data)
-        self._set_generators_and_genvalues(values_data)
-
-        orbit_data = db.char_dir_orbits.lucky(
-            {'modulus': self.modulus, 'orbit_index': self.orbit_index}
-        )
+        orbit_data = db.char_dir_orbits.lucky({'modulus': self.modulus, 'galois_orbit': {'$contains': self.number}})
+        self.orbit_index = orbit_data['orbit_index']
+        self.orbit_label = orbit_data['label']
 
         self.conductor = int(orbit_data['conductor'])
         self._set_isprimitive(orbit_data)
@@ -870,9 +853,7 @@ class WebDBDirichletGroup(WebDirichletGroup, WebDBDirichlet):
         Using only char_dir_values saves one database lookup, and combining
         these steps saves more database lookups.
         """
-        db_data = db.char_dir_values.lookup(
-            "{}.{}".format(mod, num)
-        )
+        db_data = db.char_dir_values.lookup("{}.{}".format(mod, num))
         is_prim = (db_data['label'] == db_data['prim_label'])
         order = db_data['order']
         valuepairs = db_data['values']
@@ -1204,10 +1185,7 @@ class WebDBDirichletOrbit(WebChar, WebDBDirichlet):
         """
         mod = self.modulus
         num = c
-        valuepairs = db.char_dir_values.lookup(
-            "{}.{}".format(mod, num),
-            projection='values'
-        )
+        valuepairs = db.char_dir_values.lookup("{}.{}".format(mod, num),projection='values')
         prim = self.isprimitive == bool_string(True)
         self._contents.append((
             self._char_desc(num, mod=mod, prim=prim),
@@ -1251,9 +1229,7 @@ class WebDBDirichletOrbit(WebChar, WebDBDirichlet):
         if self.modulus == 1:
             self.groupelts = [1]
         else:
-            db_data = db.char_dir_values.lookup(
-                "{}.{}".format(self.modulus, 1)
-            )
+            db_data = db.char_dir_values.lookup("{}.{}".format(self.modulus, 1))
             valuepairs = db_data['values']
             self.groupelts = [int(g) for g, v in valuepairs]
             self.groupelts[0] = -1
@@ -1263,10 +1239,7 @@ class WebDBDirichletOrbit(WebChar, WebDBDirichlet):
         self.exnum = self.galorbnums[0]
         self.exchi = ConreyCharacter(self.modulus, self.exnum)
 
-        values_gens = db.char_dir_values.lookup(
-            "{}.{}".format(self.modulus, self.exnum),
-            projection='values_gens'
-        )
+        values_gens = db.char_dir_values.lookup("{}.{}".format(self.modulus, self.exnum),projection='values_gens')
 
         vals = [int(v) for g, v in values_gens]
         sage_zeta_order = self.exchi.sage_zeta_order(self.order)
