@@ -1226,6 +1226,8 @@ class WebDBDirichletOrbit(WebChar, WebDBDirichlet):
         return values
 
     def _set_groupelts(self):
+        self.groupelts = self.Gelts()
+        return
         if self.modulus == 1:
             self.groupelts = [1]
         else:
