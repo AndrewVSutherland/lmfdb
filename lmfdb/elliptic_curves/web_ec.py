@@ -97,6 +97,7 @@ def gl2_subgroup_data(label):
             raise ValueError
     except ValueError:
         return "Unable to locate data for GL(2,Zhat) subgroup with label: %s" % label
+
     def row_wrap(cap, val): return "<tr><td>%s: </td><td>%s</td></tr>\n" % (cap, val)
     def matrix(m): return r'$\begin{bmatrix}%s&%s\\%s&%s\end{bmatrix}$' % (m[0],m[1],m[2],m[3])
     info = '<table>\n'
